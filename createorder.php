@@ -17,7 +17,9 @@ if ($_SESSION['useremail'] == "") {
     header('location:index.php');
 }
 
-include_once 'adminheader.php';
+
+// we are not using adminheader because we need to allow both user and admin so we use hybridheader
+include_once 'hybridheader.php';
 ?>
 
 

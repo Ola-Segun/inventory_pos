@@ -1,3 +1,10 @@
+<?php
+
+if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "") {
+    header('location:index.php');
+}
+?>
+
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -31,7 +38,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         //On page 1
         echo $_SESSION['pagetitle'];
-
         ?>
     </title>
 
