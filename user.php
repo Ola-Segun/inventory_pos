@@ -12,7 +12,7 @@ if ($_SESSION['useremail'] =="" or $_SESSION['role'] == "Admin") {
 $var_value = 'User';
 $_SESSION['pagetitle'] = $var_value;
 
-include_once 'userheader.php';
+include_once 'hybridheader.php';
 
 ?>
 

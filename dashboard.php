@@ -160,7 +160,7 @@ $net_total=$row->t;
             </div>
             <!-- /.row -->
 
-            <!-- Bar Chart -->
+            <!-- Bar Chart (Earnings by Date) -->
             <div class="card card-outline card-success card-custom">
                 <div class="card-header">
                     <h3 class="card-title">Earnings by date <small>(Bar-chart)</small></h3>
@@ -211,173 +211,255 @@ $net_total=$row->t;
 
             <!-- Main row -->
             <div class="row">
-            <!-- Left col -->
-            <section class="col-lg-7 connectedSortable">
-                <!-- card -->
+                <!-- Left col -->
+                <section class="col-lg-7 connectedSortable">
+                    <!-- card -->
 
-                <!-- Best Selling Products -->
-                <div class="card card-outline card-success">
-                    <div class="card-header border-0">
-                        <h3 class="card-title">
-                        Best Selling Products
-                        </h3>
-                        <!-- card tools -->
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
+                    <!-- Best Selling Products -->
+                    <div class="card card-outline card-success">
+                        <div class="card-header border-0">
+                            <h3 class="card-title">
+                            Best Selling Products
+                            </h3>
+                            <!-- card tools -->
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
                         </div>
-                        <!-- /.card-tools -->
-                    </div>
-                    <div class="card-body">
-                    <table id="tablecategory" class="table table-striped">
-                        <thead>
-                                <tr>
-                                    <th>Product ID</th>
-                                    <th>Product Name</th>
-                                    <th>Qty</th>
-                                    <th>Price</th>
-                                    <th>Total</th>
-                                </tr>
-                        </thead>
-                        <tbody>
-                                <?php
-
-                                $select = $pdo->prepare("SELECT product_id, product_name, price, sum(quantity) as q, sum(quantity*price) as total
-                                                        FROM tbl_invoice_details group by product_name ORDER BY sum(quantity) DESC LIMIT 7");
-
-                                $select->execute();
-
-                                while ($row = $select->fetch(PDO::FETCH_OBJ)) {
-                                    echo '
+                        <div class="card-body">
+                        <table id="tablecategory" class="table table-striped">
+                            <thead>
                                     <tr>
-                                        <td>' . $row->product_id . '</td>
-                                        <td>' . $row->product_name . '</td>
-                                        <td>' . $row->q . '</td>
-                                        <td>$' .number_format($row->price,2). '</td> 
-                                        <td>$' .number_format($row->total,2). '</td> 
+                                        <th>Product ID</th>
+                                        <th>Product Name</th>
+                                        <th>Qty</th>
+                                        <th>Price</th>
+                                        <th>Total</th>
                                     </tr>
-                                    ';
-                                }
+                            </thead>
+                            <tbody>
+                                    <?php
+
+                                    $select = $pdo->prepare("SELECT product_id, product_name, price, sum(quantity) as q, sum(quantity*price) as total
+                                                            FROM tbl_invoice_details group by product_name ORDER BY sum(quantity) DESC LIMIT 7");
+
+                                    $select->execute();
+
+                                    while ($row = $select->fetch(PDO::FETCH_OBJ)) {
+                                        echo '
+                                        <tr>
+                                            <td>' . $row->product_id . '</td>
+                                            <td>' . $row->product_name . '</td>
+                                            <td>' . $row->q . '</td>
+                                            <td>$' .number_format($row->price,2). '</td> 
+                                            <td>$' .number_format($row->total,2). '</td> 
+                                        </tr>
+                                        ';
+                                    }
 
 
-                                ?>
-                        </tbody>
-                    </table>
+                                    ?>
+                            </tbody>
+                        </table>
+                        </div>
+                        <!-- /.card-body-->
+                        <div class="card-footer bg-transparent">
+                        </div>
+                        <!-- /.row -->
                     </div>
-                <!-- /.card-body-->
-                    <div class="card-footer bg-transparent">
-
+                    <!-- Best Selling Products -->
+                    
+                    <div class="row">
+                        <section class="col-lg-6 connectedSortable">
+                            <!-- Exhausted Products -->
+                            <div class="card card-outline card-warning">
+                                <div class="card-header border-0">
+                                    <h3 class="card-title">
+                                    Exhausted Products
+                                    </h3>
+                                    <!-- card tools -->
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-warning btn-sm" data-card-widget="collapse" title="Collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.card-tools -->
+                                </div>
+                                <div class="card-body">
+                                <table id="tablecategory" class="table table-striped">
+                                    <thead>
+                                            <tr>
+                                                <th>Product ID</th>
+                                                <th>Product Name</th>
+                                                <th>Qty</th>
+                                                <th>Date Finished</th>
+                                            </tr>
+                                    </thead>
+                                    <tbody>
+                                            <?php
+    
+                                                $select = $pdo->prepare("SELECT * from tbl_product where productstock <= 5 || productstock = 0");
+    
+                                                $select->execute();
+    
+                                                while ($row = $select->fetch(PDO::FETCH_OBJ)) {
+                                                    echo '
+                                                    <tr>
+                                                        <td>' . $row->id . '</td>
+                                                        <td>' . $row->productname . '</td>
+                                                        <td>' . $row->productstock. '</td>
+                                                        
+                                                        '.$pid = $row->id;
+                                                        $select1 = $pdo->prepare("
+                                                            SELECT 
+                                                                CASE 
+                                                                    WHEN DATEDIFF(CURDATE(), order_date) = 0 THEN 'Today'
+                                                                    WHEN DATEDIFF(CURDATE(), order_date) = 1 THEN 'Yesterday'
+                                                                    ELSE CONCAT(DATEDIFF(CURDATE(), order_date), ' <small> days ago</small>')
+                                                                END AS formatted_date
+                                                            FROM (
+                                                                SELECT order_date
+                                                                FROM tbl_invoice_details
+                                                                WHERE product_id = ?
+                                                                ORDER BY order_date DESC
+                                                                LIMIT 1
+                                                            ) AS recent_order
+                                                        ");
+                                                        $select1->execute([$pid]);
+                                                        $row1 = $select1->fetch(PDO::FETCH_OBJ);
+                                                        
+                                                        if ($row1) {
+                                                            $most_recent_order_date = $row1->formatted_date;
+                                                            echo '<td>' . $most_recent_order_date . '</td>';
+                                                        } else {
+                                                            echo '<td>No order date found</td>';
+                                                        }'
+                                                        
+                                                    </tr>
+                                                    ';
+                                                }
+    
+    
+                                            ?>
+                                    </tbody>
+                                </table>
+                                </div>
+                                <!-- /.card-body-->
+                                <div class="card-footer bg-transparent">
+                                </div>
+                                <!-- /.row -->
+                            </div>
+                            <!-- Exhausted Products -->
+                        </section>
                     </div>
-                    <!-- /.row -->
-                </div>
-                <!-- Best Selling Products -->
+
+                    <!-- /.card -->
+                </section>
+                <!-- /.Left col -->
                 
+                <!-- right col (We are only adding the ID to make the widgets sortable)-->
+                <section class="col-lg-5 connectedSortable">
 
-                <!-- /.card -->
-            </section>
-            <!-- /.Left col -->
-            
-            <!-- right col (We are only adding the ID to make the widgets sortable)-->
-            <section class="col-lg-5 connectedSortable">
-
-                <!-- Map card -->
-                <div class="card card-outline card-success">
-                    <div class="card-header border-0">
-                        <h3 class="card-title">
-                        Recent Orders
-                        </h3>
-                        <!-- card tools -->
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
+                    <!-- Map card -->
+                    <div class="card card-outline card-success">
+                        <div class="card-header border-0">
+                            <h3 class="card-title">
+                            Recent Orders
+                            </h3>
+                            <!-- card tools -->
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
                         </div>
-                        <!-- /.card-tools -->
-                    </div>
-                    <div class="card-body">
-                    <table id="tablecategory2" class="table table-striped">
-                        <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Time</th>
-                                    <th>Total</th>
-                                </tr>
-                        </thead>
-                        <tbody>
-                                <?php
-
-                                $select = $pdo->prepare("SELECT * FROM tbl_invoice WHERE DATE(order_date) = CURDATE() LIMIT 10");
-
-                                $select->execute();
-
-                                while ($row = $select->fetch(PDO::FETCH_OBJ)) {
-                                    echo '
+                        <div class="card-body">
+                        <table id="tablecategory2" class="table table-striped">
+                            <thead>
                                     <tr>
-                                        <td>' . $row->invoice_id . '</td>
-                                        <td>' . $row->customer_name . '</td>
-                                        <td>' . $row->order_time . '</td>
-                                        <td>$' .number_format($row->total,2). '</td> 
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Time</th>
+                                        <th>Total</th>
                                     </tr>
-                                    ';
-                                }
+                            </thead>
+                            <tbody>
+                                    <?php
+
+                                    $select = $pdo->prepare("SELECT * FROM tbl_invoice WHERE DATE(order_date) = CURDATE() LIMIT 10");
+
+                                    $select->execute();
+
+                                    while ($row = $select->fetch(PDO::FETCH_OBJ)) {
+                                        echo '
+                                        <tr>
+                                            <td>' . $row->invoice_id . '</td>
+                                            <td>' . $row->customer_name . '</td>
+                                            <td>' . $row->order_time . '</td>
+                                            <td>$' .number_format($row->total,2). '</td> 
+                                        </tr>
+                                        ';
+                                    }
 
 
-                                ?>
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.card-body-->
-                    <div class="card-footer bg-transparent">
-
+                                    ?>
+                            </tbody>
+                        </table>
                     </div>
-                    <!-- /.row -->
-                </div>
-                <!-- /.card -->
+                    <!-- /.card-body-->
+                        <div class="card-footer bg-transparent">
 
-
-                <!-- Calendar -->
-                <div class="card bg-gradient-success">
-                <div class="card-header border-0">
-
-                    <h3 class="card-title">
-                    <i class="far fa-calendar-alt"></i>
-                    Calendar
-                    </h3>
-                    <!-- tools card -->
-                    <div class="card-tools">
-                    <!-- button with a dropdown -->
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" data-offset="-52">
-                        <i class="fas fa-bars"></i>
-                        </button>
-                        <div class="dropdown-menu" role="menu">
-                        <a href="#" class="dropdown-item">Add new event</a>
-                        <a href="#" class="dropdown-item">Clear events</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">View calendar</a>
                         </div>
+                        <!-- /.row -->
                     </div>
-                    <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-success btn-sm" data-card-widget="remove">
-                        <i class="fas fa-times"></i>
-                    </button>
+                    <!-- /.card -->
+
+
+                    <!-- Calendar -->
+                    <div class="card bg-gradient-success">
+                    <div class="card-header border-0">
+
+                        <h3 class="card-title">
+                        <i class="far fa-calendar-alt"></i>
+                        Calendar
+                        </h3>
+                        <!-- tools card -->
+                        <div class="card-tools">
+                        <!-- button with a dropdown -->
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" data-offset="-52">
+                            <i class="fas fa-bars"></i>
+                            </button>
+                            <div class="dropdown-menu" role="menu">
+                            <a href="#" class="dropdown-item">Add new event</a>
+                            <a href="#" class="dropdown-item">Clear events</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">View calendar</a>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-success btn-sm" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        </div>
+                        <!-- /. tools -->
                     </div>
-                    <!-- /. tools -->
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body pt-0">
-                    <!--The calendar -->
-                    <div id="calendar" style="width: 100%"></div>
-                </div>
-                <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
-            </section>
-            <!-- right col -->
+                    <!-- /.card-header -->
+                    <div class="card-body pt-0">
+                        <!--The calendar -->
+                        <div id="calendar" style="width: 100%"></div>
+                    </div>
+                    <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </section>
+                <!-- right col -->
             </div>
             <!-- /.row (main row) -->
 
