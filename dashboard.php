@@ -273,7 +273,7 @@ $net_total=$row->t;
                     <!-- Best Selling Products -->
                     
                     <div class="row">
-                        <section class="col-lg-6 connectedSortable">
+                        <section class="col-lg-7 connectedSortable">
                             <!-- Exhausted Products -->
                             <div class="card card-outline card-warning">
                                 <div class="card-header border-0">
@@ -310,7 +310,12 @@ $net_total=$row->t;
                                                     <tr>
                                                         <td>' . $row->id . '</td>
                                                         <td>' . $row->productname . '</td>
-                                                        <td>' . $row->productstock. '</td>
+                                                        '. $row->productstock;
+                                                        if ($row->productstock <= 1) {
+                                                            echo '<td><span class="badge bg_cs bg-danger">' . $row->productstock . '</span></td>';
+                                                        }elseif($row->productstock > 1){
+                                                            echo '<td><span class="badge bg_cs bg-warning">' . $row->productstock . '</span></td>';
+                                                        }'
                                                         
                                                         '.$pid = $row->id;
                                                         $select1 = $pdo->prepare("
@@ -325,7 +330,7 @@ $net_total=$row->t;
                                                                 FROM tbl_invoice_details
                                                                 WHERE product_id = ?
                                                                 ORDER BY order_date DESC
-                                                                LIMIT 1
+                                                                LIMIT 5
                                                             ) AS recent_order
                                                         ");
                                                         $select1->execute([$pid]);
@@ -333,6 +338,7 @@ $net_total=$row->t;
                                                         
                                                         if ($row1) {
                                                             $most_recent_order_date = $row1->formatted_date;
+
                                                             echo '<td>' . $most_recent_order_date . '</td>';
                                                         } else {
                                                             echo '<td>No order date found</td>';
