@@ -1,0 +1,113 @@
+/* ADMINHEADER */
+.Auth-btn p {
+    color: #FFF;
+    text-shadow: #4d5161 2px 2px 4px;
+    font-weight: 500;
+}
+
+.Auth-btn i {
+    color: #FFF;
+    text-shadow: #4d5161 2px 2px 4px;
+
+}
+
+.side-nav{
+    position: fixed;
+}
+
+.card-custom {
+    height: 87%;
+}
+
+.custom-table {
+    height: 550px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.container-fluid {
+    height: fit-content;
+}
+
+@media(max-width:768px) {
+    .card-custom {
+        height: 100%;
+    }
+
+    .custom-table {
+        height: 550px;
+        overflow: hidden;
+        overflow-y: scroll;
+    }
+}
+
+.custom-table {
+    scrollbar-width: none;
+}
+
+.custom-table::-webkit-scrollbar {
+    width: 3px;
+}
+
+.custom-table::-webkit-scrollbar-thumb {
+    background-color: #4d5161;
+}
+
+.custom-table::-webkit-scrollbar-thumb {
+    background-color: #969baf;
+}
+
+/* /.ADMINHEADER */
+
+
+/* ADMINHEADER */
+
+th {
+    text-align: center;
+}
+
+.th-btn {
+    display: flex;
+    justify-content: center;
+}
+
+td {
+    text-align: center;
+}
+
+/* .qty-error-not::before {
+    background-color: aqua;
+    height: 100%;
+    width: 100%;
+    top: 50;
+} */
+
+/* ADMINHEADER */
+
+/* EDIT_ORDER */
+
+th {
+    text-align: center;
+}
+
+.th-btn {
+    display: flex;
+    justify-content: center;
+}
+
+td {
+    text-align: center;
+}
+
+.selection{
+    height: 100%;
+}
+
+/* .qty-error-not::before {
+    background-color: aqua;
+    height: 100%;
+    width: 100%;
+    top: 50;
+} */
+
+/* EDIT_ORDER */

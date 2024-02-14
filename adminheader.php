@@ -1,8 +1,3 @@
-<?php
-if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
-    header('location:index.php');
-}
-?>
 
 <!DOCTYPE html>
 <!--
@@ -19,64 +14,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 <html lang="en">
-
-<style>
-    .Auth-btn p {
-        color: #FFF;
-        text-shadow: #4d5161 2px 2px 4px;
-        font-weight: 500;
-    }
-
-    .Auth-btn i {
-        color: #FFF;
-        text-shadow: #4d5161 2px 2px 4px;
-
-    }
-</style>
-
-<style>
-    .card-custom {
-        height: 87%;
-    }
-
-    .custom-table {
-        height: 550px;
-        overflow: hidden;
-        overflow-y: scroll;
-    }
-
-    .container-fluid {
-        height: fit-content;
-    }
-
-    @media(max-width:768px) {
-        .card-custom {
-            height: 100%;
-        }
-
-        .custom-table {
-            height: 550px;
-            overflow: hidden;
-            overflow-y: scroll;
-        }
-    }
-
-    .custom-table {
-        scrollbar-width: none;
-    }
-
-    .custom-table::-webkit-scrollbar {
-        width: 3px;
-    }
-
-    .custom-table::-webkit-scrollbar-thumb {
-        background-color: #4d5161;
-    }
-
-    .custom-table::-webkit-scrollbar-thumb {
-        background-color: #969baf;
-    }
-</style>
 
 <head>
     <meta charset="utf-8">
@@ -127,6 +64,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Theme style -->
     <link rel="stylesheet" href="dist/css/adminlte.min.css">
     <!-- /.STYLE FOR DATE PICKER -->
+
+    <!-- CUSTOM STYLES -->
+    <link rel="stylesheet" href="custom_styles.css">
+    <!-- /.CUSTOM STYLES -->
 
 
     <!-- sweetalert -->
@@ -256,7 +197,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <aside class="main-sidebar sidebar-dark-primary elevation-4 side-nav" style="position: fixed;">
             <!-- Brand Logo -->
             <a href="" class="brand-link">
                 <h7>POS</h7>

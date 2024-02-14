@@ -4,12 +4,12 @@ include_once 'connectdb.php';
 session_start();
 
 
-// if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
+// if ($_SESSION['useremail'] == "" or $_SESSION['userrole'] == "User") {
 //     header('location:index.php');
 // }
 
 
-//On page 2
+// Title for each page (echoed all names in adminheader)
 $_SESSION['pagetitle'] = 'Create Order';
 $_SESSION['tbl'] = 'tbl_product';
 
@@ -18,34 +18,13 @@ if ($_SESSION['useremail'] == "") {
 }
 
 
-// we are not using adminheader because we need to allow both user and admin so we use hybridheader
-include_once 'hybridheader.php';
+if ($_SESSION['userrole'] == "Admin") {
+    include_once 'adminheader.php';
+}elseif($_SESSION['userrole'] == "User"){
+    include_once 'userheader.php';
+}
 ?>
 
-
-
-
-<style>
-    th {
-        text-align: center;
-    }
-
-    .th-btn {
-        display: flex;
-        justify-content: center;
-    }
-
-    td {
-        text-align: center;
-    }
-
-    /* .qty-error-not::before {
-        background-color: aqua;
-        height: 100%;
-        width: 100%;
-        top: 50;
-    } */
-</style>
 
 <?php
 
@@ -74,6 +53,7 @@ function phpremoveCommas($text)
     return str_replace(',', '', $text);
 }
 
+// on btnsaveorder validation
 if (isset($_POST['btnsaveorder'])) {
     $customer_name = $_POST['txtcustomername'];
     $order_date = date('Y-m-d', strtotime($_POST['orderdate']));
@@ -85,7 +65,6 @@ if (isset($_POST['btnsaveorder'])) {
     $paid = phpremoveCommas($_POST['txtpaid']);
     $due = phpremoveCommas($_POST['txtdue']);
     $payment_type = $_POST['rb'];
-
 
     /////////////////////////////////////
 
@@ -372,14 +351,6 @@ if (isset($_POST['btnsaveorder'])) {
                                 </div>
                             </div>
 
-                            <!-- <div class="input-group" id="">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-dollar"> </i>
-                                    </span>
-                                </div>
-                                <input type="text" name="txtdescription" class="form-control" placeholder="Enter..." rows="4" required></input>
-                            </div> -->
                             <label style="padding-top:20px;">Payment Method</label>
                             <div class="form-group clearfix">
                                 <div class="icheck-danger d-inline">
@@ -508,7 +479,6 @@ if (isset($_POST['btnsaveorder'])) {
                 return due.toLocaleString();
             }
         }
-        // frm_due = separatebyhyphen((frm_due));
 
         $("#subtotal").val(frm_subtotal);
         $("#txttax").val(frm_tax_total);
@@ -710,52 +680,6 @@ if (isset($_POST['btnsaveorder'])) {
         event.target.value = formattedValue;
    })
 
-
-    // $(document).on('input', '#txtpaid', function(event) {
-    // // Get the raw input value using val() instead of value
-    // var rawpaid = $(this).val();
-
-    // // Remove commas from the raw input value
-    // var paid = removeCommas(rawpaid);
-
-    // // Get the discount value from the other input
-    // var discount = $('#txtdiscount').val();
-
-    // // Call the calculate function with the cleaned-up values
-    // calculate(discount, paid);
-
-    // // Remove existing commas
-    // var inputValue = event.target.value.replace(/,/g, '');
-
-    // // Add commas for formatting
-    // var formattedValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-    // // Update the input field with the formatted value
-    // $(this).val(formattedValue);
-
-    // console.log(inputValue);
-    // });
-
-
-
-    // document.getElementById('txtpaid').addEventListener('input', function(event) {
-    //     var rawpaid = event.target.value;
-    //     var paid = removeCommas(rawpaid);
-    //     var discount = $('#txtdiscount').val();
-    //     calculate(discount, paid);
-    //     // Remove existing commas
-    //     var inputValue = event.target.value.replace(/,/g, '');
-
-        
-    //     // Add commas for formatting
-    //     var formattedValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        
-    //     // Update the input field with the formatted value
-    //     event.target.value = formattedValue;
-        
-    //     console.log(inputValue);
-
-    // });
 </script>
 <?php
 

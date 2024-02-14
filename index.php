@@ -28,7 +28,7 @@ if (isset($_POST['btn_login'])) {
   $row = $select->fetch(PDO::FETCH_ASSOC);
 
   if (!empty($password && $useremail)) {
-    if ($row['useremail'] == $useremail and $row['password'] == $password and $row['role'] == 'Admin') {
+    if ($row['useremail'] == $useremail and $row['password'] == $password and $row['userrole'] == 'Admin') {
 
       echo '
 
@@ -57,15 +57,15 @@ if (isset($_POST['btn_login'])) {
       $_SESSION['id'] = $row['id'];
       $_SESSION['username'] = $row['username'];
       $_SESSION['useremail'] = $row['useremail'];
-      $_SESSION['role'] = $row['role'];
+      $_SESSION['userrole'] = $row['userrole'];
 
       header('refresh:1;dashboard.php');
-    } else if ($row['useremail'] == $useremail and $row['password'] == $password and $row['role'] == 'User') {
+    } else if ($row['useremail'] == $useremail and $row['password'] == $password and $row['userrole'] == 'User') {
 
       $_SESSION['id'] = $row['id'];
       $_SESSION['username'] = $row['username'];
       $_SESSION['useremail'] = $row['useremail'];
-      $_SESSION['role'] = $row['role'];
+      $_SESSION['userrole'] = $row['userrole'];
 
       echo '
       
@@ -85,7 +85,7 @@ if (isset($_POST['btn_login'])) {
         
       ';
 
-      header('refresh:1;user.php');
+      header('refresh:1;userdashboard.php');
     } else {
 
       echo '

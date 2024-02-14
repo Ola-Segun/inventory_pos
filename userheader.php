@@ -1,5 +1,6 @@
 <?php
-if ($_SESSION['useremail'] == "" or $_SESSION['userrole'] == "User") {
+
+if ($_SESSION['useremail'] == "" or $_SESSION['userrole'] == "") {
     header('location:index.php');
 }
 ?>
@@ -12,25 +13,81 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-
+<!-- DataTables -->
+<link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
 <html lang="en">
 
 <style>
     .Auth-btn p {
         color: #FFF;
+        text-shadow: #4d5161 2px 2px 4px;
+        font-weight: 500;
     }
 
     .Auth-btn i {
         color: #FFF;
+        text-shadow: #4d5161 2px 2px 4px;
+
+    }
+</style>
+
+<style>
+    .card-custom {
+        height: 87%;
+    }
+
+    .custom-table {
+        height: 550px;
+        overflow: hidden;
+        overflow-y: scroll;
+    }
+
+    .container-fluid {
+        height: fit-content;
+    }
+
+    @media(max-width:768px) {
+        .card-custom {
+            height: 100%;
+        }
+
+        .custom-table {
+            height: 550px;
+            overflow: hidden;
+            overflow-y: scroll;
+        }
+    }
+
+    .custom-table {
+        scrollbar-width: none;
+    }
+
+    .custom-table::-webkit-scrollbar {
+        width: 3px;
+    }
+
+    .custom-table::-webkit-scrollbar-thumb {
+        background-color: #4d5161;
+    }
+
+    .custom-table::-webkit-scrollbar-thumb {
+        background-color: #969baf;
     }
 </style>
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pos |
+        <?php
 
+        //On page 1
+        echo $_SESSION['pagetitle'];
+        ?>
+    </title>
 
 
     <!-- jQuery -->
@@ -39,6 +96,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.min.js"></script>
+    <!-- ChartJS -->
+    <script src="/Chart.js-2.8.0/dist/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -46,13 +107,52 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="dist/css/adminlte.min.css">
+
+    <!-- STYLE FOR DATE PICKER -->
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <!-- Bootstrap4 Duallistbox -->
+    <link rel="stylesheet" href="plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+    <!-- BS Stepper -->
+    <link rel="stylesheet" href="plugins/bs-stepper/css/bs-stepper.min.css">
+    <!-- dropzonejs -->
+    <link rel="stylesheet" href="plugins/dropzone/min/dropzone.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <!-- /.STYLE FOR DATE PICKER -->
+
+
+    <!-- sweetalert -->
     <script src="sweetalert/sweetalert.js"></script>
+    <script src="sweetalert2/package/dist/sweetalert2.all.min.js"></script>
+
+    <!-- DataTables  & Plugins -->
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="plugins/jszip/jszip.min.js"></script>
+    <script src="plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+
 
 </head>
 
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
-
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
@@ -192,9 +292,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <aside class="main-sidebar sidebar-dark-primary elevation-4" style="position: fixed;">
             <!-- Brand Logo -->
-            <a href="" class="brand-link">
+            <a href="index3.html" class="brand-link">
                 <h7>POS</h7>
                 <span class="brand-text font-weight-light">-INVENTORY</span>
                 <!-- <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
@@ -210,7 +310,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="info">
                         <a href="#" class="d-block">
                             <?php
-                            echo $_SESSION['username'];
+                            echo $_SESSION["username"];
                             ?>
                         </a>
                     </div>
@@ -237,40 +337,42 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-                        <li class="nav-item">
-                            <a href="dashboard.php" class="nav-link">
-                                <i class="nav-icon fas fa-dashboard"></i>
+                with font-awesome or any other icon font library -->
+                        <li class="nav-item menu-open">
+                            <a href="userdashboard.php" class="nav-link active">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
+                                    <!-- <i class="right fas fa-angle-left"></i> -->
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="createorder.php" class="nav-link">
+                                <i class="nav-icon fas fa-first-order"></i>
+                                <p>
+                                    Create order
                                     <!-- <span class="right badge badge-danger">New</span> -->
                                 </p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="category.php" class="nav-link">
-                                <i class="nav-icon fas fa-list-alt"></i>
+                            <a href="orderlist.php" class="nav-link">
+                                <i class="nav-icon fas fa-list-ul"></i>
                                 <p>
-                                    Category
+                                    Order Lists
                                     <!-- <span class="right badge badge-danger">New</span> -->
                                 </p>
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="registration.php" class="nav-link">
-                                <i class="nav-icon fas fa-registered"></i>
-                                <p>
-                                    Registration
-                                    <!-- <span class="right badge badge-danger">New</span> -->
-                                </p>
-                            </a>
-                        </li>
+
                         <!-- Forget/Signout -->
+
                         <li class="nav-item Auth-btn">
-                            <a href="changePassword.php" class="nav-link btn btn-block btn-warning btn-sm">
-                                <!-- <i class="nav-icon fas fa-th"></i> -->
+                            <a href="changePassword.php" class="nav-link btn-warning">
                                 <i class="nav-icon fa-solid fa-key"></i>
                                 <p>
                                     Change Password
@@ -278,9 +380,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                         </li>
                         <li class="nav-item Auth-btn">
-
-                            <a href="../inventoryPos2/logout.php" class="nav-link btn btn-block btn-danger btn-sm">
-                                <!-- <i class="nav-icon fas fa-th"></i> -->
+                            <a href="../inventoryPos2/logout.php" class="nav-link btn-danger">
                                 <i class="nav-icon fa-solid fa-right-from-bracket"></i>
                                 <p>
                                     Logout
@@ -293,3 +393,5 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
             <!-- /.sidebar -->
         </aside>
+
+

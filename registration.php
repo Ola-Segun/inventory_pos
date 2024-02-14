@@ -52,9 +52,9 @@ session_start();
 
 include_once 'adminheader.php';
 
-/* we redirect to index.php if empty username and Role = User */
+/* we redirect to index.php if empty username and userRole = User */
 
-if ($_SESSION['useremail'] == "" or $_SESSION["role"] != "Admin") {
+if ($_SESSION['useremail'] == "" or $_SESSION["userrole"] != "Admin") {
     header('location:index.php');
 }
 
@@ -100,7 +100,7 @@ if (isset($_POST['btnsave'])) {
 
         if (!empty($txtusername && $txtemail && $txtpassword && $txtselect_option)) {
             $insert = $pdo->prepare("insert into tbl_user
-            (username, useremail, password, role) 
+            (username, useremail, password, userrole) 
             values(:name, :email, :pass, :role)");
 
             $insert->bindParam(":name", $txtusername);
@@ -281,7 +281,7 @@ if (isset($_POST['btnsave'])) {
                                         <td>' . $row->username . '</td>
                                         <td>' . $row->useremail . '</td>
                                         <td>' . $row->password . '</td>
-                                        <td>' . $row->role . '</td> 
+                                        <td>' . $row->userrole . '</td> 
                                         <td>
                                             <button id="' . $row->id . '"  type="submit" class="btn btn-block btn-danger btn-xs btndelete" name="btndelete">Delete</button>
                                         </td>

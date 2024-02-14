@@ -4,14 +4,15 @@ include_once 'connectdb.php';
 session_start();
 
 
-if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
+if ($_SESSION['useremail'] == "" or $_SESSION['userrole'] == "User") {
     header('location:index.php');
 }
 
-
+// Title for each page (echoed all names in adminheader)
 $_SESSION['pagetitle'] = 'Add Product';
 include_once 'adminheader.php';
 
+// validate form fields on btnaddproduct
 if (isset($_POST['btnaddproduct'])) {
     $productname = $_POST['txtproductname'];
     $category = $_POST['txtselectcategory'];
@@ -46,15 +47,16 @@ if (isset($_POST['btnaddproduct'])) {
     */
 
 
-
+    // Check for file extensions
     if ($f_extension == "jpg" || $f_extension == "jpeg" || $f_extension == "png" || $f_extension == "gif") {
+
+        // Check for file size
         if ($f_size < 1000000) {
-            // echo ;
-            //echo gettype($_FILES['productimage']['size']);
+
+            // Check if fields are empty
             if (!empty($productname && $category && $purchaseprice && $salesprice && $stock && $description)) {
 
                 // Checking if Product Already exist 
-
                 $select = $pdo->prepare("select productname from tbl_product where productname='$productname'");
                 $select->execute();
                 if ($select->rowCount() > 0) {
@@ -88,8 +90,6 @@ if (isset($_POST['btnaddproduct'])) {
                     $insert->bindParam(":stock", $stock);
                     $insert->bindParam(":des", $description);
                     $insert->bindParam(":img", $newFileName);
-
-                    // echo $productname.' - '.$category.' - '.$purchaseprice.' - '.$salesprice.' - '.$stock.' - '.$description.' - '.$f_name;
 
                     if ($insert->execute()) {
                         echo '
@@ -129,6 +129,8 @@ if (isset($_POST['btnaddproduct'])) {
                         ';
                     }
                 }
+            
+            // check if fields are not empty
             } elseif (empty($productname && $category && $purchaseprice && $salesprice && $stock && $description)) {
                 echo '
                 
@@ -245,8 +247,10 @@ function fill_categories($pdo)
     <div class="content">
         <div class="container-fluid">
 
-
+            <!-- CARD -->
             <div class="card card-outline card-success card-custom">
+                
+                <!-- card-header -->
                 <div class="card-header">
                     <div class="row">
 
@@ -319,13 +323,16 @@ function fill_categories($pdo)
                 </div>
 
             </div>
-
+            <!-- /.CARD -->
+            
 
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+
+
 
 <?php
 

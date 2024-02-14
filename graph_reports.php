@@ -3,7 +3,7 @@ include_once 'connectdb.php';
 // error_reporting(0);
 session_start();
 
-if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
+if ($_SESSION['useremail'] == "" or $_SESSION['userrole'] == "User") {
     header('location:index.php');
 }
 

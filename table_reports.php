@@ -3,7 +3,7 @@ include_once 'connectdb.php';
 error_reporting(0);
 session_start();
 
-if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
+if ($_SESSION['useremail'] == "" or $_SESSION['userrole'] == "User") {
     header('location:index.php');
 }
 
@@ -206,14 +206,14 @@ include_once 'adminheader.php';
                                                 <td>' . $row->subtotal . '</td>
                                                 <td>' . $row->tax . '</td>
                                                 <td>' . $row->discount . '</td> 
-                                                <td style="color:#fff;"><span class="badge bg-danger" style="padding:7px 10px; color:#fff; font-size:13px;">' . $row->total . '</span></td> 
+                                                <td style="color:#fff;"><span class="badge bg-danger" style="padding:7px 10px; color:#fff; font-size:13px;">' . number_format($row->total, 2) . '</span></td> 
                                                 <td><small><em>' . $row->paid . '</em></small></td> 
                                                 <td id="nettotal">' . $row->due . '</td> 
                                                 <td>' . $row->order_date . '</td> 
                                         ';
 
                                         if($row->payment_type == 'cash'){
-                                                echo'<td style="color:#fff;"><span class="badge bg-primary" style="padding:7px 10px; color:#fff; font-size:13px;">' . $row->payment_type . '</span></td> ';
+                                            echo'<td style="color:#fff;"><span class="badge bg-primary" style="padding:7px 10px; color:#fff; font-size:13px;">' . $row->payment_type . '</span></td> ';
                                         }elseif($row->payment_type == 'card'){
                                             echo'<td style="color:#fff;"><span class="badge bg-info" style="padding:7px 10px; color:#fff; font-size:13px;">' . $row->payment_type . '</span></td> ';
                                         }else{

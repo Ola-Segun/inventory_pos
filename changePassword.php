@@ -9,15 +9,13 @@ if ($_SESSION['useremail'] == "") {
 }
 
 
-//On page 2
+// Title for each page (echoed all names in adminheader)
 $_SESSION['pagetitle'] = 'Change Password';
 
 // Allow both Admin and User to access the change password page
 
-if ($_SESSION['role'] == 'Admin'){
-
+if ($_SESSION['userrole'] == 'Admin'){
     include_once 'adminheader.php';
-
 } else {
     include_once 'userheader.php';
 }
@@ -46,7 +44,6 @@ if (isset($_POST['btnUpdate'])) {
         if ($txtNewPass == $txtConfirmPass) {
 
             $update = $pdo->prepare("update tbl_user set password=:pass where useremail=:email");
-
             $update->bindParam(':pass', $txtConfirmPass);
             $update->bindParam(':email', $email);
 

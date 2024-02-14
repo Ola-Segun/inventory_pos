@@ -4,7 +4,7 @@ include_once 'connectdb.php';
 session_start();
 
 
-if ($_SESSION['useremail'] =="" or $_SESSION['role'] == "Admin") {
+if ($_SESSION['useremail'] =="" or $_SESSION['userrole'] == "Admin") {
     header('location:index.php');
 }
 
@@ -12,7 +12,7 @@ if ($_SESSION['useremail'] =="" or $_SESSION['role'] == "Admin") {
 $var_value = 'User';
 $_SESSION['pagetitle'] = $var_value;
 
-include_once 'hybridheader.php';
+include_once 'userheader.php';
 
 ?>
 

@@ -6,7 +6,13 @@ session_start();
 $_SESSION['pagetitle'] = 'Order List';
 $_SESSION['tbl'] = 'tbl_invoice';
 $_SESSION['tbl_1'] = 'tbl_invoice_details';
-include_once 'hybridheader.php';
+
+
+if ($_SESSION['userrole'] == "Admin") {
+    include_once 'adminheader.php';
+}elseif($_SESSION['userrole'] == "User"){
+    include_once 'userheader.php';
+}
 
 ?>
 

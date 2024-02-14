@@ -55,18 +55,20 @@ session_start();
 
 include_once 'adminheader.php';
 
-/* we redirect to index.php if empty username and Role = User */
+/* we redirect to index.php if empty username and userRole = User */
 
-if ($_SESSION['useremail'] == "" or $_SESSION["role"] != "Admin" or $_SESSION["role"] != "User") {
+if ($_SESSION['useremail'] == "" or $_SESSION["userrole"] != "Admin" or $_SESSION["userrole"] != "User") {
     header('location:index.php');
 }
 
+// Title for each page (echoed all names in adminheader)
 $_SESSION['pagetitle'] = 'Category';
+
 $_SESSION['tbl'] = 'tbl_category';
 
 
 
-// When we save a Category
+// Validation on btnsave
 if (isset($_POST['btnsave'])) {
     $txtcategory = $_POST['txtcategory'];
 
@@ -214,9 +216,6 @@ if (isset($_POST['btnsave'])) {
 
                                 // Indicate category is in edit mode session
                                 $_SESSION['Edit_icon'] = '<span><p style="font-size: small; padding: 0; margin: 0;">Edit-Mode</p></span>';
-
-                                // $categoryID = $_POST['btnedit'];
-
 
                                 $select = $pdo->prepare("select * from tbl_category where id=" . $_POST['btnedit']);
                                 $select->execute();

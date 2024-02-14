@@ -4,7 +4,7 @@ include_once 'connectdb.php';
 session_start();
 
 
-if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
+if ($_SESSION['useremail'] == "" or $_SESSION['userrole'] == "User") {
     header('location:index.php');
 }
 
@@ -22,10 +22,12 @@ $productstock_db = $row['productstock'];
 $productdescription_db = $row['productdescription'];
 $productimage_db = $row['productimage'];
 
-
+// Title for each page (echoed all names in adminheader)
 $_SESSION['pagetitle'] = 'Edit Product';
+
 include_once 'adminheader.php';
 
+// Validating btnupdateproduct button
 if (isset($_POST['btnupdateproduct'])) {
     $productname = $_POST['txtproductname'];
     $category = $_POST['txtselectcategory'];

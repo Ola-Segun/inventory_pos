@@ -4,12 +4,14 @@ include_once 'connectdb.php';
 session_start();
 
 
-// if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
-//     header('location:index.php');
-// }
+if ($_SESSION['useremail'] == "" or $_SESSION['userrole'] == "User") {
+    header('location:index.php');
+}
 
-
+// Title for each page (echoed all names in adminheader)
 $_SESSION['pagetitle'] = 'Edit Order';
+
+
 $_SESSION['tbl'] = 'tbl_product';
 include_once 'adminheader.php';
 
@@ -44,33 +46,6 @@ $select_2->execute();
     // $qty_db = $row2["quantity"];
     // $pprice_db = $row2["price"];
 ?>
-
-
-<style>
-    th {
-        text-align: center;
-    }
-
-    .th-btn {
-        display: flex;
-        justify-content: center;
-    }
-
-    td {
-        text-align: center;
-    }
-
-    .selection{
-        height: 100%;
-    }
-
-    /* .qty-error-not::before {
-        background-color: aqua;
-        height: 100%;
-        width: 100%;
-        top: 50;
-    } */
-</style>
 
 
 <?php
@@ -349,7 +324,7 @@ if (isset($_POST['btneditorder'])) {
                                 </div>
                                 <!-- /.input group -->
                             </div>
-                  <!-- /.form group -->
+                            <!-- /.form group -->
                         </div>
                     </div>
 
