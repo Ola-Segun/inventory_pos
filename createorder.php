@@ -584,7 +584,7 @@ if (isset($_POST['btnsaveorder'])) {
                         // Log the maximum value
                     }
                 });
-            });           
+            });
         });
         
         
